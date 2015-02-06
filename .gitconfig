@@ -10,7 +10,7 @@
     diffm = diff --cached --diff-filter=M
     unfuckit = reset HEAD --hard
     ls = ls-files
-    l = log --date=local --format='format:%C(yellow)commit %H%Creset%nAuthor: %Cblue%an%Creset <%ae>%nDate:   %cd, %Cgreen%cr%Creset%n%n    %s%n%n    %b'
+    l = log --date=local --format='format:%C(yellow)commit %H [%h]%Creset%nAuthor: %Cblue%an%Creset <%ae>%nDate:   %cd, %Cgreen%cr%Creset%n%n    %s%n%n    %b'
     dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
     rekt = reset HEAD --hard
     track-mainline = branch --set-upstream-to=origin/mainline
