@@ -17,10 +17,10 @@ end
 #
 
 # Save this for later
-original_location = %x( pwd )
+ORIGINAL_LOCATION = %x( pwd )
 def go_back
     # Go back to where we started
-    %x( cd #{original_location} )
+    %x( cd #{ORIGINAL_LOCATION} )
 end
 
 # Where the .git is located for this repo
