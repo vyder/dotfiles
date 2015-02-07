@@ -93,3 +93,9 @@ if [ -f "$notification" ]; then
         echo "NO" > $notification
     fi
 fi
+
+#======
+
+# -Clean up
+
+cd ~/Code
