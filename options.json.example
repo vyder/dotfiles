@@ -10,6 +10,6 @@
         "^README.md$",
         "^scripts($|/.*)"
     ],
-    "install_dir": "/Users/Vidur/",
+    "install_dir": "~/",
     "backup_dir": "./.backup"
 }
