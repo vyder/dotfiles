@@ -37,6 +37,7 @@ unless File.exists?(options_filename)
 end
 options = JSON.parse(File.read(options_filename))
 
+force_sync = ["--force", "-f"].include? ARGV[0]
 
 # ---------------------------------------------------------------------------------------
 #
@@ -44,15 +45,16 @@ options = JSON.parse(File.read(options_filename))
 #
 #
 
-puts "Checking for updates...".yellow
-%x( git remote update )
-remote_commits = %x( git log HEAD..origin/master --oneline ).chomp
-if remote_commits.split("\n").empty?
-    puts "Already up to date.".green
-    go_back
-    exit(0)
+unless force_sync
+    puts "Checking for updates...".yellow
+    %x( git remote update )
+    remote_commits = %x( git log HEAD..origin/master --oneline ).chomp
+    if remote_commits.split("\n").empty?
+        puts "Already up to date.".green
+        go_back
+        exit(0)
+    end
 end
-
 
 # ---------------------------------------------------------------------------------------
 #
