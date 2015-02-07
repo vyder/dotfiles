@@ -46,12 +46,10 @@ bindkey -e
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 
-#======
-
-# -PATH
-
-# --Home
-# export HOME=/home/vmmurali
+# --RBENV
+if ! type "$rbenv" > /dev/null; then
+    eval "$(rbenv init -)"
+fi
 
 # --Aliases
 source $ZSH/aliases.zsh
