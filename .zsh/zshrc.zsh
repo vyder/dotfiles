@@ -46,6 +46,9 @@ bindkey -e
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 
+# My binaries
+export PATH=$HOME/bin:$PATH
+
 # --RBENV
 if ! type "$rbenv" > /dev/null; then
     eval "$(rbenv init -)"
