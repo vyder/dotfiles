@@ -80,3 +80,13 @@ bindkey "^I" expand-or-complete-with-dots
 # COMPLETION_WAITING_DOTS="true"
 
 #======
+
+# -NOTIFY
+notification="$ZSH/.notify"
+if [ -f "$notification" ]; then
+    UPDATED=$(cat $notification)
+    if [ "$UPDATED" = "YES" ]; then
+        echo "${GREEN}Your dotfiles have been updated.${RESET}"
+        echo "NO" > $notification
+    fi
+fi
