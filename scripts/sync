@@ -17,20 +17,21 @@ end
 #
 
 # Save this for later
-ORIGINAL_LOCATION = %x( pwd )
+ORIGINAL_LOCATION = %x( pwd ).chomp
 def go_back
     # Go back to where we started
-    %x( cd #{ORIGINAL_LOCATION} )
+    Dir.chdir(ORIGINAL_LOCATION)
 end
 
 # Where the .git is located for this repo
 repo_dir = File.expand_path( "../../", $0)
-%x( cd #{repo_dir} )
+Dir.chdir(repo_dir)
 
 # Get options file
-options_filename = "options.json"
+options_filename = "#{repo_dir}/options.json"
 unless File.exists?(options_filename)
     puts "Can't locate the 'options.json' file at the root of the repository.".red
+    puts "Expected at: #{options_filename}".red
     puts "Please copy the 'options.json.example' file to create your own options.".red
     go_back
     exit(1)
@@ -47,7 +48,12 @@ force_sync = ["--force", "-f"].include? ARGV[0]
 
 unless force_sync
     puts "Checking for updates...".yellow
-    %x( git remote update )
+    %x( git remote update &>/dev/null )
+    if $?.exitstatus != 0
+        puts "Cannot reach remote repository.".red
+        go_back
+        exit(1)
+    end
     remote_commits = %x( git log HEAD..origin/master --oneline ).chomp
     if remote_commits.split("\n").empty?
         puts "Already up to date.".green
