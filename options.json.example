@@ -1,0 +1,15 @@
+{
+    "file_exceptions": [
+        "^.backup($|/.*)",
+        "^.git($|/.*)",
+        "^.gitignore$",
+        "^Gemfile$",
+        "^Gemfile.lock$",
+        "^options.json$",
+        "^options.json.example$",
+        "^README.md$",
+        "^scripts($|/.*)"
+    ],
+    "install_dir": "/Users/Vidur/",
+    "backup_dir": "./.backup"
+}

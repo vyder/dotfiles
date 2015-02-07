@@ -1,0 +1,162 @@
+#!/usr/bin/env ruby
+
+begin
+    require 'json'
+    require 'pathname'
+    require 'colorize'
+rescue LoadError => e
+    puts "Looks like you're missing a gem: '#{e.message.split(' ').last}'"
+    puts "Try running 'bundle install' to resolve this issue."
+    exit(1)
+end
+
+# ---------------------------------------------------------------------------------------
+#
+#   Get setup in the right location
+#
+#
+
+# Save this for later
+original_location = %x( pwd )
+def go_back
+    # Go back to where we started
+    %x( cd #{original_location} )
+end
+
+# Where the .git is located for this repo
+repo_dir = File.expand_path( "../../", $0)
+%x( cd #{repo_dir} )
+
+# Get options file
+options_filename = "options.json"
+unless File.exists?(options_filename)
+    puts "Can't locate the 'options.json' file at the root of the repository.".red
+    puts "Please copy the 'options.json.example' file to create your own options.".red
+    go_back
+    exit(1)
+end
+options = JSON.parse(File.read(options_filename))
+
+
+# ---------------------------------------------------------------------------------------
+#
+#   Figure out if there is an update available
+#
+#
+
+puts "Checking for updates...".yellow
+%x( git remote update )
+remote_commits = %x( git log HEAD..origin/master --oneline ).chomp
+if remote_commits.split("\n").empty?
+    puts "Already up to date.".green
+    go_back
+    exit(0)
+end
+
+
+# ---------------------------------------------------------------------------------------
+#
+#   Gather dotfiles to work with
+#
+#
+
+# Replaces "./" prefix of find's output, and also drops the first "." listing
+all_files = %x( find . | sed 's#./##' ).split("\n").drop(1)
+
+excluded_file_regexes = options['file_exceptions']
+
+# Remove files that aren't dotfiles from file list
+dotfiles = all_files
+excluded_file_regexes.each do |exclude_regex|
+    dotfiles.reject! { |possible_dotfile| possible_dotfile.match(/#{exclude_regex}/) }
+end
+
+# ---------------------------------------------------------------------------------------
+#
+#   Perform a backup of currently deployed dotfiles
+#
+#
+
+install_dir = options['install_dir']
+backup_dir = options['backup_dir']
+unless File.exist?(backup_dir)
+    puts "Backup directory is missing.".yellow
+    puts "Creating a new directory: #{backup_dir}".yellow
+    %x( mkdir #{backup_dir} )
+end
+
+backup_dest = "#{backup_dir}/dotfiles-backup_#{Time.now.strftime("%Y%m%d_%H%M")}"
+unless File.exist?(backup_dest)
+    puts "Creating temporary backup destination: #{backup_dest}".yellow
+    %x( mkdir #{backup_dest} )
+end
+# Copy currently deployed files to backup destination
+dotfiles.each do |dotfile|
+    deployed_dotfile = install_dir + dotfile
+    puts "Backing up #{deployed_dotfile.green}..."
+    %x( cp -r #{deployed_dotfile} #{backup_dest} )
+end
+backup_cmd = "tar -zcf #{backup_dest}.tar.gz #{backup_dest}"
+puts "Archiving backup to: " + "#{backup_dest}.tar.gz".green
+%x( #{backup_cmd} )
+
+# Remove backup_dest directory
+puts "Cleaning up..."
+%x( rm -rf #{backup_dest} )
+
+puts "Backup complete.".green
+
+
+# ---------------------------------------------------------------------------------------
+#
+#   Pull newest from origin/dotfiles
+#
+#
+
+current_branch = %x( git branch | grep "* " | sed "s#* ##" ).chomp
+
+# Stash changes if any
+repo_is_dirty = %x( git status --porcelain ) != ""
+if repo_is_dirty
+    puts "Git working directory is dirty.".yellow
+    stash_message = "Syncing dotfiles repo"
+    puts "Stashing changes with message: '#{stash_message}'...".yellow
+    %x( git stash save #{stash_message} )
+end
+
+# Switch to master branch
+unless current_branch == "master"
+    puts "Switching to 'master' branch...".yellow
+    %x( git checkout master )
+end
+
+# Pull newest changes
+puts "Pulling remote 'master' branch...".yellow
+%x( git pull origin master )
+
+puts "Pulled newest code changes.".green
+
+# ---------------------------------------------------------------------------------------
+#
+#   Deploy new dotfiles from repo
+#
+#
+
+# Copy dotfiles to install destination
+dotfiles.each do |dotfile|
+    deployed_dotfile = install_dir + dotfile
+    puts "Deploying #{dotfile.green} to #{deployed_dotfile.blue}..."
+    %x( cp -r #{dotfile} #{deployed_dotfile} )
+end
+
+
+# ---------------------------------------------------------------------------------------
+#
+#   Clean up
+#
+#
+
+# Go back to where we started
+go_back
+
+puts "Sync complete.\n".green
