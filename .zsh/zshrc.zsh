@@ -49,6 +49,9 @@ bindkey '^[[1;5D' backward-word
 # My binaries
 export PATH=$HOME/bin:$PATH
 
+# Mongodb
+export PATH=/usr/local/mongodb/bin:$PATH
+
 # --RBENV
 if ! type "$rbenv" > /dev/null; then
     eval "$(rbenv init -)"
