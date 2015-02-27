@@ -23,6 +23,8 @@
 
     branchdate = !git for-each-ref --sort='-authordate' --format='%(refname)%<2>%(authordate)' refs/heads | sed -e 's-refs/heads/--'
     track = "!f() { remote=$1; branch=$2; git branch --set-upstream-to=$remote/$branch; }; f"
+#   git rm deleted files in repo
+    rmm = "!f() { git status | grep deleted | awk '{print $2;}' | xargs git rm; }; f"
 [color]
     ui = true
     diff = true
