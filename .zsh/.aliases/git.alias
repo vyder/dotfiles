@@ -19,7 +19,16 @@ alias gpr='git pull --rebase'
 function pull () { git pull origin "$1"; }
 
 # git push
-function push () { git push origin "$1"; }
+function push () {
+    branch=""
+    if [ $1 = "." ]; then
+        branch=$(git symbolic-ref --short HEAD);
+    else
+        branch="$1";
+    fi
+
+    git push origin "$branch";
+}
 
 # git rm
 alias gr='git rm'
