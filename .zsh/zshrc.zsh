@@ -98,7 +98,3 @@ if [ -f "$notification" ]; then
 fi
 
 #======
-
-# -Clean up
-
-cd ~/Code
