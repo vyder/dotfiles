@@ -1,7 +1,6 @@
 alias c='clear'
 alias server='python -m SimpleHTTPServer'
 alias ip='curl ipinfo.io'
-alias nuke='rm -rf build/*'
 alias -g L='less'
 t () {
         if [ $# -eq 0 ]; then

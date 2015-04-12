@@ -1,2 +1,3 @@
 .backup/
 options.json
+.zsh/host/*.zsh

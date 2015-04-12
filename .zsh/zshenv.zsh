@@ -1,7 +1,35 @@
-source $ZSH/.aliases/colors.alias
-source $ZSH/.aliases/git.alias
-source $ZSH/.aliases/navigation.alias
-source $ZSH/.aliases/util.alias
+#======
+
+# -ENV
+
+# --Editor
+export EDITOR="nano"
+
+# --Bind Keys
+bindkey -e
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+
+# My binaries
+export PATH=$HOME/bin:$PATH
+
+# Mongodb
+export PATH=/usr/local/mongodb/bin:$PATH
+
+# --RBENV
+if ! type "$rbenv" > /dev/null; then
+    eval "$(rbenv init -)"
+fi
+
+# --Aliases
+source $ZSH/aliases/colors.zsh
+source $ZSH/aliases/git.zsh
+source $ZSH/aliases/navigation.zsh
+source $ZSH/aliases/util.zsh
+
+#===========
+
+# -OVERRIDES
 
 # Add OS specific config
 if [[ $(uname -s | grep -i "Darwin") == "Darwin" ]]; then
@@ -28,3 +56,4 @@ host_config="$ZSH/host/$host.zsh"
 if [[ -f $host_config ]]; then
     source $host_config
 fi
+

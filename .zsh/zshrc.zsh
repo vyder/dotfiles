@@ -32,37 +32,13 @@ setopt nullglob
 autoload -U colors
 export LSCOLORS=cxfxfxfxbxegedabagacad
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-alias ls='ls -G'
+
+# Note: Don't alias 'ls -G' here.
+# ls options differ by OS
 
 #======
 
-# -ENV
-
-# --Editor
-export EDITOR="nano"
-
-# --Bind Keys
-bindkey -e
-bindkey '^[[1;5C' forward-word
-bindkey '^[[1;5D' backward-word
-
-# My binaries
-export PATH=$HOME/bin:$PATH
-
-# Mongodb
-export PATH=/usr/local/mongodb/bin:$PATH
-
-# --RBENV
-if ! type "$rbenv" > /dev/null; then
-    eval "$(rbenv init -)"
-fi
-
-# --Aliases
-source $ZSH/aliases.zsh
-
-#======
-
-# -PROMPT
+# -DEFAULT PROMPT
 PS1="%2c:$ "
 
 #======
@@ -87,6 +63,12 @@ bindkey "^I" expand-or-complete-with-dots
 
 #======
 
+# -ENV + OVERRIDES
+
+source $ZSH/zshenv.zsh
+
+#======
+
 # -NOTIFY
 notification="$ZSH/.notify"
 if [ -f "$notification" ]; then
@@ -98,3 +80,4 @@ if [ -f "$notification" ]; then
 fi
 
 #======
+
