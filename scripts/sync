@@ -5,8 +5,9 @@ begin
     require 'pathname'
     require 'colorize'
 rescue LoadError => e
-    puts "Looks like you're missing a gem: '#{e.message.split(' ').last}'"
-    puts "Try running 'bundle install' to resolve this issue."
+    gem_name = e.message.split(' ').last
+    puts "Looks like you're missing a gem: '#{gem_name}'"
+    puts "Try running 'gem install #{gem_name}' to resolve this issue."
     exit(1)
 end
 
