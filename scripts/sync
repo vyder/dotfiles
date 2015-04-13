@@ -70,11 +70,12 @@ def go_back
 end
 
 # Where the .git is located for this repo
-repo_dir = Pathname.new(File.expand_path("../..", __FILE__))
-Dir.chdir(repo_dir)
+script_path = Pathname.new(__FILE__)
+script_path.ascend { |path| REPO_LOCATION = path if Dir.exist?( path + ".git" ) }
+Dir.chdir(REPO_LOCATION)
 
 # Get options file
-options_filename = "#{repo_dir}/options.json"
+options_filename = REPO_LOCATION + "options.json"
 unless File.exists?(options_filename)
     puts "Can't locate the 'options.json' file at the root of the repository.".red
     puts "Expected at: #{options_filename}".red
@@ -231,7 +232,7 @@ file_padding = deployed_files.max_by(&:length).length
 padding = 60 + file_padding
 
 deployed_files.each do |dotfile|
-    dotfile_src  = Pathname.new(repo_dir    + dotfile)
+    dotfile_src  = Pathname.new(REPO_LOCATION    + dotfile)
     dotfile_dest = Pathname.new(install_dir + dotfile)
 
     print "Copy: #{dotfile_src.to_s.yellow}".ljust(padding)
