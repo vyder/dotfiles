@@ -1,14 +1,10 @@
 {
     "file_exceptions": [
-        "^.backup($|/.*)",
-        "^.git($|/.*)",
         "^.gitignore$",
-        "^Gemfile$",
-        "^Gemfile.lock$",
         "^options.json$",
         "^options.json.example$",
-        "^README.md$",
-        "^scripts($|/.*)"
+        "^scripts($|/.*)",
+        "^README.md$"
     ],
     "install_dir": "~/",
     "backup_dir": "./.backup"
