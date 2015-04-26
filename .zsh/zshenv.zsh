@@ -17,7 +17,8 @@ export PATH=$HOME/bin:$PATH
 export PATH=/usr/local/mongodb/bin:$PATH
 
 # --RBENV
-if ! type "$rbenv" > /dev/null; then
+type rbenv > /dev/null
+if [ "$?" = "0" ]; then
     eval "$(rbenv init -)"
 fi
 
