@@ -1,0 +1,28 @@
+## Author: Vidur Murali
+## Date  : 11/27/2014
+##
+## Based on Spacegray Eighties Palette
+## Link: https://github.com/vyder/color-palettes/blob/master/Spacegray%20Eighties.clr
+##
+## Notes for future me:
+## > 'icolor' is the same as 'color', except
+##   it uses cases-insensitive matching
+
+syntax "nanorc" "\.?nanorc$"
+
+## Keywords
+icolor red "((un)?set|include|syntax|i?color)"
+
+## Options
+icolor blue "(autoindent|backup|backupdir|backwards|boldtext|brackets|casesensitive|const|cut|fill|historylog|matchbrackets|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|operatingdir|preserve|punct|quickblank|quotestr|rebinddelete|rebindkeypad|regexp|smarthome|smooth|speller|suspend|tabsize|tabstospaces|tempfile|view|whitespace|wordbounds)"
+
+## Colors
+icolor yellow "(bright)?(white|black|red|blue|green|yellow|magenta|cyan)"
+
+## Strings
+icolor green "\"(\\.|[^\"])*\""
+## Escapes
+color red "\\[0-7][0-7]?[0-7]?|\\x[0-9a-fA-F]+|\\[bfnrt'\"\?\\]"
+
+## Comments
+icolor black "^[[:space:]]*#.*$"

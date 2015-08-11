@@ -48,3 +48,11 @@ alias gsatt='git status'
 alias gstt='git status'
 alias gsat='git status'
 alias gsta='git status'
+
+# Disable till you figure out a way to use
+# it without overriding regular git binary
+# - 8/5/2015
+#
+# if [[ -n "$(which scmpuff)" ]]; then
+#    eval "$(scmpuff init -s)"
+# fi

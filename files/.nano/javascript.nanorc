@@ -1,0 +1,48 @@
+## Author: Vidur Murali
+## Date  : 02/21/2015
+##
+## Based on Spacegray Eighties Palette
+## Link: https://github.com/vyder/color-palettes/blob/master/Spacegray%20Eighties.clr
+##
+## Notes for future me:
+## > Word demarkers like - "[[:<:]]", "[[:>:]]", "\b" - don't work
+##   in OSX. Use "[[:<:]]", etc instead.
+##   [Source: http://stackoverflow.com/a/19805937/834459]
+
+syntax "JavaScript" "\.js$"
+
+## Keywords
+color blue "[[:<:]](break|case|catch|continue|default|delete|do|else|finally)[[:>:]]"
+color blue "[[:<:]](for|function|if|in|instanceof|new|null|return|switch)[[:>:]]"
+color blue "[[:<:]](switch|this|throw|try|typeof)[[:>:]]"
+color blue "[[:<:]](undefined|var|void|while|with)[[:>:]]"
+## Node Keywords
+color blue "[[:<:]](require)[[:>:]]"
+## Special standout keywords
+color magenta "[[:<:]](console|log|function|new|return)[[:>:]]"
+
+## Decimal, cotal and hexadecimal numbers
+color red "[[:<:]][-+]?([1-9][0-9]*|0[0-7]*|0x[0-9a-fA-F]+)([uU][lL]?|[lL][uU]?)?[[:>:]]"
+## Floating point number with at least one digit before decimal point
+color red "[[:<:]][-+]?([0-9]+\.[0-9]*|[0-9]*\.[0-9]+)([EePp][+-]?[0-9]+)?[fFlL]?"
+color red "[[:<:]][-+]?([0-9]+[EePp][+-]?[0-9]+)[fFlL]?"
+## Boolean
+color red "[[:<:]](true|false)[[:>:]]"
+
+## Type specifiers
+color yellow "[[:<:]](Array|Boolean|Date|Enumerator|Error|Function|Math)[[:>:]]"
+color yellow "[[:<:]](Number|Object|RegExp|String)[[:>:]]"
+## Prototypes
+color yellow "[[:<:]][A-Z]+[0-9A-Z_a-z]*[[:>:]]"
+
+## Regular expressions
+color green "/([^/]|(\\/))*/[iomx]*" "%r\{([^}]|(\\}))*\}[iomx]*"
+## String
+color green "L?\"(\\"|[^"])*\""
+color green "L?'(\'|[^'])*'"
+## Escapes
+color red "\\[0-7][0-7]?[0-7]?|\\x[0-9a-fA-F]+|\\[bfnrt'"\?\\]"
+
+## Comments
+color black start="/\*" end="\*/"
+color black "//.*$"

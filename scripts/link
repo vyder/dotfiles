@@ -1,0 +1,14 @@
+#!/bin/bash
+
+project_root=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd | sed "s/\/scripts//g" )
+
+dotfiles_dir="$project_root/files"
+notification_file="$project_root/.notify"
+
+cd $HOME
+
+for file in $( ls -A $dotfiles_dir ); do
+    ln -sn "$dotfiles_dir/$file"
+done
+
+cp $notification_file $HOME/.zsh/

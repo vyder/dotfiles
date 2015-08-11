@@ -18,3 +18,4 @@ t () {
         fi
 }
 alias n='nano'
+alias be='bundle exec'

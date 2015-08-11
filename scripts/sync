@@ -1,263 +1,263 @@
-#!/usr/bin/env ruby
+# #!/usr/bin/env ruby
 
-begin
-    require 'json'
-    require 'pathname'
-    require 'colorize'
-rescue LoadError => e
-    gem_name = e.message.split(' ').last
-    puts "Looks like you're missing a gem: '#{gem_name}'"
-    puts "Try running 'gem install #{gem_name}' to resolve this issue."
-    exit(1)
-end
+# begin
+#     require 'json'
+#     require 'pathname'
+#     require 'colorize'
+# rescue LoadError => e
+#     gem_name = e.message.split(' ').last
+#     puts "Looks like you're missing a gem: '#{gem_name}'"
+#     puts "Try running 'gem install #{gem_name}' to resolve this issue."
+#     exit(1)
+# end
 
-# ---------------------------------------------------------------------------------------
-#
-#   0. Helper methods
-#
-#
+# # ---------------------------------------------------------------------------------------
+# #
+# #   0. Helper methods
+# #
+# #
 
-# Array     : exceptions    = An Array of Regexp of files to ignore
-# String    : context       = The path to prepend to returned file list
-#
-# Returns a list of files that is tracked by this repository, in the provided 'context',
-# that don't match the list of 'exceptions'
-#
-def get_files(exceptions = [], context = "")
-    files = %x(git ls-files).split("\n")
-    files.reject { |item| item.match(Regexp.union(exceptions)) }.collect { |item| context + item }
-end
+# # Array     : exceptions    = An Array of Regexp of files to ignore
+# # String    : context       = The path to prepend to returned file list
+# #
+# # Returns a list of files that is tracked by this repository, in the provided 'context',
+# # that don't match the list of 'exceptions'
+# #
+# def get_files(exceptions = [], context = "")
+#     files = %x(git ls-files).split("\n")
+#     files.reject { |item| item.match(Regexp.union(exceptions)) }.collect { |item| context + item }
+# end
 
-# Get the git commit ID for the repository HEAD
-#
-def current_commit_id
-    %x(git rev-parse --short HEAD).chomp
-end
+# # Get the git commit ID for the repository HEAD
+# #
+# def current_commit_id
+#     %x(git rev-parse --short HEAD).chomp
+# end
 
-# Get the branch name for the repository HEAD
-#
-def current_branch
-    %x(git branch | grep '*' | cut -d' ' -f2).chomp
-end
+# # Get the branch name for the repository HEAD
+# #
+# def current_branch
+#     %x(git branch | grep '*' | cut -d' ' -f2).chomp
+# end
 
-# Check if the current working directory is dirty
-#
-def dirty_working_directory?
-    %x(git status --porcelain).chomp != ""
-end
+# # Check if the current working directory is dirty
+# #
+# def dirty_working_directory?
+#     %x(git status --porcelain).chomp != ""
+# end
 
-# String    : message   = A message to save to the stash with
-#
-# Stash files from current working directory
-#
-def stash_files(message = "")
-    cmd = "git stash save -u" + (message.empty? ? "" : " \"#{message}\"")
-    %x(#{cmd})
-end
-
-
-# ---------------------------------------------------------------------------------------
-#
-#   1. Get setup in the right location
-#
-#
-
-# Save this for later
-ORIGINAL_LOCATION = %x( pwd ).chomp
-def go_back
-    # Go back to where we started
-    Dir.chdir(ORIGINAL_LOCATION)
-end
-
-# Where the .git is located for this repo
-script_path = Pathname.new(__FILE__)
-script_path.ascend { |path| REPO_LOCATION = path if Dir.exist?( path + ".git" ) }
-Dir.chdir(REPO_LOCATION)
-
-# Get options file
-options_filename = REPO_LOCATION + "options.json"
-unless File.exists?(options_filename)
-    puts "Can't locate the 'options.json' file at the root of the repository.".red
-    puts "Expected at: #{options_filename}".red
-    puts "Please copy the 'options.json.example' file to create your own options.".red
-    go_back
-    exit(1)
-end
-options = JSON.parse(File.read(options_filename))
-
-# Parse flag arguments
-flags = {}
-flags[:local] = ARGV.include?("--local") || ARGV.include?("-l")
+# # String    : message   = A message to save to the stash with
+# #
+# # Stash files from current working directory
+# #
+# def stash_files(message = "")
+#     cmd = "git stash save -u" + (message.empty? ? "" : " \"#{message}\"")
+#     %x(#{cmd})
+# end
 
 
-# ---------------------------------------------------------------------------------------
-#
-#   2. Stash files if working directory is dirty
-#
-#
+# # ---------------------------------------------------------------------------------------
+# #
+# #   1. Get setup in the right location
+# #
+# #
 
-stash_files if dirty_working_directory?
+# # Save this for later
+# ORIGINAL_LOCATION = %x( pwd ).chomp
+# def go_back
+#     # Go back to where we started
+#     Dir.chdir(ORIGINAL_LOCATION)
+# end
 
+# # Where the .git is located for this repo
+# script_path = Pathname.new(__FILE__)
+# script_path.ascend { |path| REPO_LOCATION = path if Dir.exist?( path + ".git" ) }
+# Dir.chdir(REPO_LOCATION)
 
-# ---------------------------------------------------------------------------------------
-#
-#   3. Switch to master and get current commit ID
-#
-#
+# # Get options file
+# options_filename = REPO_LOCATION + "options.json"
+# unless File.exists?(options_filename)
+#     puts "Can't locate the 'options.json' file at the root of the repository.".red
+#     puts "Expected at: #{options_filename}".red
+#     puts "Please copy the 'options.json.example' file to create your own options.".red
+#     go_back
+#     exit(1)
+# end
+# options = JSON.parse(File.read(options_filename))
 
-%x(git checkout master) unless current_branch == "master"
-commitID = current_commit_id
-
-
-# ---------------------------------------------------------------------------------------
-#
-#   4. Create list of deployed files for current commit ID
-#
-#
-
-exceptions = options["file_exceptions"].collect { |item| /#{item}/ }
-deployed_files = get_files(exceptions)
-
-
-# ---------------------------------------------------------------------------------------
-#
-#   5. Backup those files from install_dir
-#
-#
-
-install_dir = Pathname.new(options["install_dir"])
-
-puts "Backing up existing dotfiles at: ".green + install_dir.to_s.blue + " ...".green
-
-# Create a backup directory if necessary
-backup_dir = Pathname.new(options['backup_dir'])
-%x( mkdir -p #{backup_dir} )
-
-# Create a time-stamped backup location
-backup_dest = "#{backup_dir.expand_path}/dotfiles-backup_#{Time.now.strftime("%Y%m%d_%H%M")}"
-
-puts "Creating temporary backup destination: ".green + backup_dest.to_s.blue
-%x( mkdir -p #{backup_dest} )
+# # Parse flag arguments
+# flags = {}
+# flags[:local] = ARGV.include?("--local") || ARGV.include?("-l")
 
 
-# Copy currently deployed files to backup destination
-file_padding = deployed_files.max_by(&:length).length
-padding = 25 + file_padding
+# # ---------------------------------------------------------------------------------------
+# #
+# #   2. Stash files if working directory is dirty
+# #
+# #
 
-deployed_files.each do |dotfile|
-    dotfile_src  = Pathname.new(install_dir + dotfile)
-    dotfile_dest = Pathname.new("#{backup_dest}/#{dotfile}")
-
-    print "Copy: #{dotfile_src.to_s.yellow}".ljust(padding)
-    print "=>"
-    print " #{dotfile_dest.to_s.green}"
-    print "\n"
-
-    # Create directories as necessary
-    %x(mkdir -p #{dotfile_dest.dirname})
-
-    # Copy file over
-    %x( cp #{dotfile_src} #{dotfile_dest} )
-end
-
-# Create an archive of the backup destination
-backup_file = Pathname.new("#{backup_dest}.tar.gz")
-
-puts "\nArchiving backup to: ".green + backup_file.to_s.blue
-
-relative_backup_dir_path   = Pathname.new(backup_dest).relative_path_from backup_dir.expand_path
-relative_backup_file_path  = backup_file.relative_path_from backup_dir.expand_path
-
-# cd into the backup folder so
-# the archive is created with
-# relative paths
-Dir.chdir(backup_dir)
-backup_cmd = "tar -zcf #{relative_backup_file_path} #{relative_backup_dir_path}"
-
-%x( #{backup_cmd} )
-
-# Remove backup_dest directory and reset location
-%x( rm -rf #{relative_backup_dir_path} )
-go_back
-
-puts "Backup complete.".green
+# stash_files if dirty_working_directory?
 
 
-# ---------------------------------------------------------------------------------------
-#
-#   6. Run a 'git pull' unless this is a local file sync
-#
-#
+# # ---------------------------------------------------------------------------------------
+# #
+# #   3. Switch to master and get current commit ID
+# #
+# #
 
-unless flags[:local]
-    puts "\nChecking for updates...".green
-    %x( git pull &> /dev/null )
-    puts "Done.".green
-else
-    puts "\nNot checking remote repository.".red
-    puts "Syncing locally.".green
-end
+# %x(git checkout master) unless current_branch == "master"
+# commitID = current_commit_id
 
 
-# ---------------------------------------------------------------------------------------
-#
-#   7. Check if commit ID has changed
-#
-#
+# # ---------------------------------------------------------------------------------------
+# #
+# #   4. Create list of deployed files for current commit ID
+# #
+# #
 
-new_commitID = current_commit_id
-
-
-# ---------------------------------------------------------------------------------------
-#
-#   8. Generate list of files to deploy for newest commit ID
-#
-#
-
-if new_commitID != commitID
-    exceptions = options["file_exceptions"].collect { |item| /#{item}/ }
-    deployed_files = get_files(exceptions)
-end
-
-# ---------------------------------------------------------------------------------------
-#
-#   9. Copy these files to install_dir
-#
-#
-
-puts "\nDeploying new dotfiles...".green
-
-# Copy repository dotfiles to install destination
-file_padding = deployed_files.max_by(&:length).length
-padding = 60 + file_padding
-
-deployed_files.each do |dotfile|
-    dotfile_src  = Pathname.new(REPO_LOCATION    + dotfile)
-    dotfile_dest = Pathname.new(install_dir + dotfile)
-
-    print "Copy: #{dotfile_src.to_s.yellow}".ljust(padding)
-    print "=>"
-    print " #{dotfile_dest.to_s.green}"
-    print "\n"
-
-    # Create directories as necessary
-    %x(mkdir -p #{dotfile_dest.dirname})
-
-    # Copy file over
-    %x( cp #{dotfile_src} #{dotfile_dest} )
-end
-
-puts "Done.".green
+# exceptions = options["file_exceptions"].collect { |item| /#{item}/ }
+# deployed_files = get_files(exceptions)
 
 
-# ---------------------------------------------------------------------------------------
-#
-#   10. Cleanup
-#
-#
+# # ---------------------------------------------------------------------------------------
+# #
+# #   5. Backup those files from install_dir
+# #
+# #
 
-go_back
+# install_dir = Pathname.new(options["install_dir"])
 
-puts "\nSync complete.".green
+# puts "Backing up existing dotfiles at: ".green + install_dir.to_s.blue + " ...".green
+
+# # Create a backup directory if necessary
+# backup_dir = Pathname.new(options['backup_dir'])
+# %x( mkdir -p #{backup_dir} )
+
+# # Create a time-stamped backup location
+# backup_dest = "#{backup_dir.expand_path}/dotfiles-backup_#{Time.now.strftime("%Y%m%d_%H%M")}"
+
+# puts "Creating temporary backup destination: ".green + backup_dest.to_s.blue
+# %x( mkdir -p #{backup_dest} )
+
+
+# # Copy currently deployed files to backup destination
+# file_padding = deployed_files.max_by(&:length).length
+# padding = 25 + file_padding
+
+# deployed_files.each do |dotfile|
+#     dotfile_src  = Pathname.new(install_dir + dotfile)
+#     dotfile_dest = Pathname.new("#{backup_dest}/#{dotfile}")
+
+#     print "Copy: #{dotfile_src.to_s.yellow}".ljust(padding)
+#     print "=>"
+#     print " #{dotfile_dest.to_s.green}"
+#     print "\n"
+
+#     # Create directories as necessary
+#     %x(mkdir -p #{dotfile_dest.dirname})
+
+#     # Copy file over
+#     %x( cp #{dotfile_src} #{dotfile_dest} )
+# end
+
+# # Create an archive of the backup destination
+# backup_file = Pathname.new("#{backup_dest}.tar.gz")
+
+# puts "\nArchiving backup to: ".green + backup_file.to_s.blue
+
+# relative_backup_dir_path   = Pathname.new(backup_dest).relative_path_from backup_dir.expand_path
+# relative_backup_file_path  = backup_file.relative_path_from backup_dir.expand_path
+
+# # cd into the backup folder so
+# # the archive is created with
+# # relative paths
+# Dir.chdir(backup_dir)
+# backup_cmd = "tar -zcf #{relative_backup_file_path} #{relative_backup_dir_path}"
+
+# %x( #{backup_cmd} )
+
+# # Remove backup_dest directory and reset location
+# %x( rm -rf #{relative_backup_dir_path} )
+# go_back
+
+# puts "Backup complete.".green
+
+
+# # ---------------------------------------------------------------------------------------
+# #
+# #   6. Run a 'git pull' unless this is a local file sync
+# #
+# #
+
+# unless flags[:local]
+#     puts "\nChecking for updates...".green
+#     %x( git pull &> /dev/null )
+#     puts "Done.".green
+# else
+#     puts "\nNot checking remote repository.".red
+#     puts "Syncing locally.".green
+# end
+
+
+# # ---------------------------------------------------------------------------------------
+# #
+# #   7. Check if commit ID has changed
+# #
+# #
+
+# new_commitID = current_commit_id
+
+
+# # ---------------------------------------------------------------------------------------
+# #
+# #   8. Generate list of files to deploy for newest commit ID
+# #
+# #
+
+# if new_commitID != commitID
+#     exceptions = options["file_exceptions"].collect { |item| /#{item}/ }
+#     deployed_files = get_files(exceptions)
+# end
+
+# # ---------------------------------------------------------------------------------------
+# #
+# #   9. Copy these files to install_dir
+# #
+# #
+
+# puts "\nDeploying new dotfiles...".green
+
+# # Copy repository dotfiles to install destination
+# file_padding = deployed_files.max_by(&:length).length
+# padding = 60 + file_padding
+
+# deployed_files.each do |dotfile|
+#     dotfile_src  = Pathname.new(REPO_LOCATION    + dotfile)
+#     dotfile_dest = Pathname.new(install_dir + dotfile)
+
+#     print "Copy: #{dotfile_src.to_s.yellow}".ljust(padding)
+#     print "=>"
+#     print " #{dotfile_dest.to_s.green}"
+#     print "\n"
+
+#     # Create directories as necessary
+#     %x(mkdir -p #{dotfile_dest.dirname})
+
+#     # Copy file over
+#     %x( cp #{dotfile_src} #{dotfile_dest} )
+# end
+
+# puts "Done.".green
+
+
+# # ---------------------------------------------------------------------------------------
+# #
+# #   10. Cleanup
+# #
+# #
+
+# go_back
+
+# puts "\nSync complete.".green
 
 

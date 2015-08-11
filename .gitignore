@@ -1,3 +1,2 @@
-.backup/
-options.json
-.zsh/host/*.zsh
+# Host specific config
+files/.zsh/host/*.zsh
