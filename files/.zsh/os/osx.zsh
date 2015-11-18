@@ -10,3 +10,6 @@ alias -g paste="pbpaste"
 
 # Don't show groups on Macs
 alias ls='ls -G'
+
+# Editor
+alias a='atom'
