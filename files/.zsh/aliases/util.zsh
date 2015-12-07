@@ -1,7 +1,7 @@
 alias c='clear'
 alias server='python -m SimpleHTTPServer'
 alias ip='curl ipinfo.io'
-alias -g L='less'
+alias -g L='less -Rf'
 t () {
         if [ $# -eq 0 ]; then
                 tree -Ca -L 1 .
