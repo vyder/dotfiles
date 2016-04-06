@@ -37,6 +37,10 @@ if [[ $(uname -s | grep -i "Darwin") == "Darwin" ]]; then
     source $ZSH/os/osx.zsh
 fi
 
+if [[ $(uname -s | grep -i "Linux") == "Linux" ]]; then
+    source $ZSH/os/linux.zsh
+fi
+
 # Finally override with host specific config
 #
 # --------          -----------------------------
@@ -57,4 +61,3 @@ host_config="$ZSH/host/$host.zsh"
 if [[ -f $host_config ]]; then
     source $host_config
 fi
-
