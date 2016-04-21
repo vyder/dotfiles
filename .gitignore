@@ -1,2 +1,3 @@
 # Host specific config
 files/.zsh/host/*.zsh
+files/.zsh/.notify

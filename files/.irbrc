@@ -50,4 +50,8 @@ module Kernel
     def q
         exit
     end
+
+    def reload(require_regex)
+        $".grep(/^#{require_regex}/).each {|e| load(e) }
+    end
 end

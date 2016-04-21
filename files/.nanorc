@@ -25,6 +25,8 @@ set const
 
 ## Assembly
 #include "~/.nano/asm.nanorc"
+## C
+#include "~/.nano/c.nanorc"
 ## CSS
 #include "~/.nano/css.nanorc"
 ## HTML
