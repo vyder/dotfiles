@@ -24,25 +24,25 @@ set const
 # Syntax Highlighters
 
 ## Assembly
-include "~/.nano/asm.nanorc"
+#include "~/.nano/asm.nanorc"
 ## CSS
-include "~/.nano/css.nanorc"
+#include "~/.nano/css.nanorc"
 ## HTML
-include "~/.nano/html.nanorc"
+#include "~/.nano/html.nanorc"
 ## Java
-include "~/.nano/java.nanorc"
+#include "~/.nano/java.nanorc"
 ## JavaScript
-include "~/.nano/javascript.nanorc"
+#include "~/.nano/javascript.nanorc"
 ## Man
-include "~/.nano/man.nanorc"
+#include "~/.nano/man.nanorc"
 ## nanorc
-include "~/.nano/nanorc.nanorc"
+#include "~/.nano/nanorc.nanorc"
 ## Python
-include "~/.nano/python.nanorc"
+#include "~/.nano/python.nanorc"
 ## Ruby
-include "~/.nano/ruby.nanorc"
+#include "~/.nano/ruby.nanorc"
 ## shell
-include "~/.nano/sh.nanorc"
+#include "~/.nano/sh.nanorc"
 ## XML
-include "~/.nano/xml.nanorc"
+#include "~/.nano/xml.nanorc"
 
