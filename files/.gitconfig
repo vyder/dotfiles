@@ -6,26 +6,65 @@
 [credential]
     helper = osxkeychain
 [alias]
+#   Human Aliases
+    branches = branch -a
+    tags = tag
+    stashes = stash list
     diffc = diff --cached
     diffm = diff --cached --diff-filter=M
     unfuckit = reset HEAD --hard
+    rekt = reset HEAD --hard
     ls = ls-files
+    untrack = branch --unset-upstream
+
+#   Fast-forward merge the current branch
+    ff = "!f() { br=$(git symbolic-ref HEAD 2>/dev/null | cut -d'/' -f3); git merge --ff-only origin/$br; }; f"
+
+#   Better logs
     l = log --date=local --format='format:%C(yellow)commit %H [%h]%Creset%nAuthor: %Cblue%an%Creset <%ae>%nDate:   %cd, %Cgreen%cr%Creset%n%n    %s%n%n%w(0,4,4)%b'
     dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-    rekt = reset HEAD --hard
-    track-mainline = branch --set-upstream-to=origin/mainline
 
 #   $1 => the number of commits to diff across
     last = "!f() { n=$1; if [ -z "$1" ] ; then n=1; fi; git diff HEAD~$n HEAD; }; f"
 
-#   $1 => commit ID to diff to ; $2 => number of commits to diff across
+    mff = merge --ff-only
+
+#   git prev
+#   --------
+#   See the diff between a particular commit and the one(s) before it
+#
+#   Args: $1 => commit ID to diff to ; $2 => number of commits to diff across
+#
+#   Example:
+#       > git prev ae85bc9
+#       => Shows `git diff ae85bc9~1 ae85bc9
+#
+#       > git prev ae85bc9 5
+#       => Shows `git diff ae85bc9~5 ae85bc9
+#
     prev = "!f() { n=$2; if [ -z "$2" ] ; then n=1; fi; git diff $1~$n $1; }; f"
 
-    branchdate = !git for-each-ref --sort='-authordate' --format='%(refname)%<2>%(authordate)' refs/heads | sed -e 's-refs/heads/--'
+#   git track
+#   ---------
+#   Set upstream branches with fewer keystrokes
+#
+#   Examples:
+#       On branch 'feature':
+#       > git track
+#       => 'feature' now tracks 'origin/feature'
+#
+#       > git track bananas
+#       => 'feature' now tracks 'origin/bananas'
+#
+#       > git track gitlab bananas
+#       => 'feature' now tracks 'gitlab/bananas'
+#
     track = "!f() { remote=$1; branch=$2; git branch --set-upstream-to=$remote/$branch; }; f"
-    untrack = branch --unset-upstream
+
+    branchdate = !git for-each-ref --sort='-authordate' --format='%(refname)%<2>%(authordate)' refs/heads | sed -e 's-refs/heads/--'
 #   git rm deleted files in repo
     rmm = "!f() { git status | grep deleted | awk '{print $2;}' | xargs git rm; }; f"
+
 # Logic:
 #
 # The 'git stash save' fails if the tree is clean (instead of
