@@ -17,12 +17,12 @@
     ls = ls-files
     untrack = branch --unset-upstream
 
-#   Fast-forward merge the current branch
-    ff = "!f() { br=$(git symbolic-ref HEAD 2>/dev/null | cut -d'/' -f3); git merge --ff-only origin/$br; }; f"
-
 #   Better logs
     l = log --date=local --format='format:%C(yellow)commit %H [%h]%Creset%nAuthor: %Cblue%an%Creset <%ae>%nDate:   %cd, %Cgreen%cr%Creset%n%n    %s%n%n%w(0,4,4)%b'
     dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+
+#   Fast-forward merge the current branch with the remote branch of the same name
+    ff = "!f() { br=`git branch --no-color | grep \"^\\*\" | cut -d' ' -f2`; git merge --ff-only origin/$br; }; f"
 
 #   $1 => the number of commits to diff across
     last = "!f() { n=$1; if [ -z "$1" ] ; then n=1; fi; git diff HEAD~$n HEAD; }; f"
@@ -95,6 +95,8 @@
         git rebase --whitespace=fix HEAD~ && \
         git reset --soft HEAD~ ; \
     fi"
+	ap = add --patch
+	d = diff
 [color]
     ui = true
     diff = true
