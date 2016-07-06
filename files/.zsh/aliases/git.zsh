@@ -20,13 +20,11 @@ function pull () { git pull origin "$1"; }
 
 # git push
 function push () {
-    branch=""
-    if [ $1 = "." ]; then
-        branch=$(git symbolic-ref --short HEAD);
+    if [ -z "$1" ]; then
+        branch=$(git branch --no-color | grep '^\*' | cut -d' ' -f2);
     else
         branch="$1";
     fi
-
     git push origin "$branch";
 }
 
