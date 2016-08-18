@@ -5,6 +5,7 @@
 # Mac app shortcuts
 alias finder="open -a 'Finder' $@"
 alias sub="open -a 'Sublime Text 2' $@"
+alias atom="open -a 'Atom' $@"
 alias -g copy="pbcopy"
 alias -g paste="pbpaste"
 

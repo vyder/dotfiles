@@ -13,6 +13,11 @@ bindkey '^[[1;5D' backward-word
 # My binaries
 export PATH=$HOME/bin:$PATH
 
+local_bin=/usr/local/bin
+if [ -d $local_bin ]; then
+    export PATH=$local_bin:$PATH
+fi
+
 # Mongodb
 export PATH=/usr/local/mongodb/bin:$PATH
 
