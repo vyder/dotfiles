@@ -8,7 +8,7 @@
 [alias]
 #   Human Aliases
     branches = branch -a
-    tags = tag
+    tags = tag -n99
     stashes = stash list
     diffc = diff --cached
     diffm = diff --cached --diff-filter=M
@@ -29,8 +29,6 @@
 
 #   $1 => the number of commits to diff across
     last = "!f() { n=$1; if [ -z "$1" ] ; then n=1; fi; git diff HEAD~$n HEAD; }; f"
-
-    mff = merge --ff-only
 
 #   git prev
 #   --------
@@ -136,5 +134,6 @@
 	required = true
 [core]
 	editor = nano
-[remote "origin"]
-	prune = true
+	pager = less -x1,5
+[push]
+	followTags = true
