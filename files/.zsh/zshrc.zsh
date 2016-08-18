@@ -14,7 +14,8 @@ compinit
 setopt COMPLETE_IN_WORD
 
 # --Show completion menu when number of options is at least 2
-zstyle ':completion:*' menu select=2
+# (Takes a while to load)
+# zstyle ':completion:*' menu select=2
 
 # --Case-insensitive (all) completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
