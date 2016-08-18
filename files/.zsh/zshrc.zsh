@@ -30,9 +30,11 @@ setopt nullglob
 #======
 
 # -COLORS
-autoload -U colors
+# autoload -U colors && colors
 export LSCOLORS=cxfxfxfxbxegedabagacad
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+setopt promptsubst
+setopt promptpercent
+# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # Note: Don't alias 'ls -G' here.
 # ls options differ by OS
