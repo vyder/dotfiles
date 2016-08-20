@@ -42,7 +42,13 @@ setopt promptpercent
 #======
 
 # -DEFAULT PROMPT
-PS1="%2c:$ "
+# source: https://github.com/sindresorhus/pure#getting-started
+if [ -e /usr/local/share/zsh/site-functions/prompt_pure_setup ]; then
+  autoload -U promptinit && promptinit
+  prompt pure
+else
+  PS1="%2c:$ "
+fi
 
 #======
 
@@ -83,4 +89,3 @@ if [ -f "$notification" ]; then
 fi
 
 #======
-
