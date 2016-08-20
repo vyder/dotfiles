@@ -18,6 +18,8 @@ if [ -d $local_bin ]; then
     export PATH=$local_bin:$PATH
 fi
 
+export PATH=$PATH:/usr/sbin
+
 # Mongodb
 export PATH=/usr/local/mongodb/bin:$PATH
 
