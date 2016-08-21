@@ -13,6 +13,13 @@ alias -g paste="pbpaste"
 alias ls='ls -G'
 
 # Editor
+#a () {
+#    if [ $# -eq 0 ]; then
+#        atom .
+#    else
+#        atom $1
+#    fi
+#}
 alias a='atom'
 # Set JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
