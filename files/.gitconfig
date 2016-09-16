@@ -98,6 +98,7 @@
     fi"
 	ap = add --patch
 	d = diff
+	f = fetch -p
 [color]
     ui = true
     diff = true
