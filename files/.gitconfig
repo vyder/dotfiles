@@ -137,3 +137,4 @@
 	pager = less -x1,5
 [push]
 	followTags = true
+	default = upstream
