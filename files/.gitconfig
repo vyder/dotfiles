@@ -99,6 +99,7 @@
 	ap = add --patch
 	d = diff
 	f = fetch -p
+	p = push
 [color]
     ui = true
     diff = true
