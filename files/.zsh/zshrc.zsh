@@ -10,6 +10,9 @@
 autoload -U compinit
 compinit
 
+# Disable hostname completion
+zstyle ':completion:*' hosts off
+
 # --Allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
 
