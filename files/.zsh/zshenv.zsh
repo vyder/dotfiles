@@ -18,6 +18,11 @@ if [ -d $local_bin ]; then
     export PATH=$local_bin:$PATH
 fi
 
+s_bin=/sbin
+if [ -d $s_bin ]; then
+    export PATH=$PATH:$s_bin
+fi
+
 export PATH=$PATH:/usr/sbin
 
 # Mongodb
