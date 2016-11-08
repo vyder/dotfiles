@@ -34,6 +34,12 @@ if [ "$?" = "0" ]; then
     eval "$(rbenv init -)"
 fi
 
+# --JENV
+type jenv > /dev/null
+if [ "$?" = "0" ]; then
+    eval "$(jenv init -)"
+fi
+
 # --Aliases
 source $ZSH/aliases/colors.zsh
 source $ZSH/aliases/git.zsh
