@@ -59,3 +59,6 @@ module Kernel
         reload!
     end
 end
+
+# Add current dir to load path
+$: << File.expand_path("..", __FILE__)
