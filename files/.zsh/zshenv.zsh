@@ -24,6 +24,9 @@ if [ -d $s_bin ]; then
 fi
 
 export PATH=$PATH:/usr/sbin
+if [ -d /usr/local/sbin ]; then
+    export PATH=$PATH:/usr/local/sbin
+fi
 
 # Mongodb
 export PATH=/usr/local/mongodb/bin:$PATH
