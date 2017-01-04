@@ -13,6 +13,9 @@ compinit
 # Disable hostname completion
 zstyle ':completion:*' hosts off
 
+# Disable completion for *.meta files (Unity)
+zstyle ':completion:*' ignored-patterns '*?.meta'
+
 # --Allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
 
