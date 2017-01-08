@@ -55,13 +55,12 @@
 #       > git track
 #       => 'feature' now tracks 'origin/feature'
 #
-#       > git track bananas
-#       => 'feature' now tracks 'origin/bananas'
-#
 #       > git track gitlab bananas
 #       => 'feature' now tracks 'gitlab/bananas'
 #
-    track = "!f() { remote=$1; branch=$2; git branch --set-upstream-to=$remote/$branch; }; f"
+    track = "!f() { remote=$1; branch=$2; \
+                    if [ -z "$2" ]; then remote="origin"; branch=`git branch --no-color | grep \"^\\*\" | cut -d' ' -f2`; fi; \
+                    git branch --set-upstream-to=$remote/$branch; }; f"
 
     branchdate = !git for-each-ref --sort='-authordate' --format='%(refname)%<2>%(authordate)' refs/heads | sed -e 's-refs/heads/--'
 #   git rm deleted files in repo
