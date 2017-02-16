@@ -47,6 +47,12 @@
 #
     prev = "!f() { n=$2; if [ -z "$2" ] ; then n=1; fi; git diff $1~$n $1; }; f"
 
+#   git prevn
+#   ---------
+#   A version of git-prev that only displays the file changes. i.e. uses the '--name-only' diff option.
+#
+    prevn = "!f() { n=$2; if [ -z "$2" ] ; then n=1; fi; git diff --name-only $1~$n $1; }; f"
+
 #   git track
 #   ---------
 #   Set upstream branches with fewer keystrokes
