@@ -12,6 +12,7 @@
     stashes = stash list
     diffc = diff --cached
     diffm = diff --cached --diff-filter=M
+    diffn = diff --name-only
     unfuckit = reset HEAD --hard
     rekt = reset HEAD --hard
     ls = ls-files
