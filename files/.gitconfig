@@ -27,6 +27,9 @@
     dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
     overview = log --graph --oneline --decorate --all
 
+#   Searching Ancestors
+    child = "!f() { br=$2; if [ -z "$2" ] ; then br="HEAD"; fi; git log --ancestry-path --format='%C(yellow)[%h]%Creset %s' --color $1..$br | tail -1; }; f"
+
 #   Fast-forward merge the current branch with the remote branch of the same name
     ff = "!f() { br=`git branch --no-color | grep \"^\\*\" | cut -d' ' -f2`; git merge --ff-only origin/$br; }; f"
 
