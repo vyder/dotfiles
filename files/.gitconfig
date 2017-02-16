@@ -25,6 +25,7 @@
     l = log --date=local --format='format:%C(yellow)commit %H [%h]%Creset%nAuthor: %Cblue%an%Creset <%ae>%nDate:   %cd, %Cgreen%cr%Creset%n%n    %s%n%n%w(0,4,4)%b'
     lstat = log --stat --date=local --format='format:%C(yellow)commit %H [%h]%Creset%nAuthor: %Cblue%an%Creset <%ae>%nDate:   %cd, %Cgreen%cr%Creset%n%n    %s%n%n%w(0,4,4)%b'
     dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+    overview = log --graph --oneline --decorate --all
 
 #   Fast-forward merge the current branch with the remote branch of the same name
     ff = "!f() { br=`git branch --no-color | grep \"^\\*\" | cut -d' ' -f2`; git merge --ff-only origin/$br; }; f"
