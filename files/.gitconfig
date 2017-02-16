@@ -28,7 +28,10 @@
     overview = log --graph --oneline --decorate --all
 
 #   Searching Ancestors
-    child = "!f() { br=$2; if [ -z "$2" ] ; then br="HEAD"; fi; git log --ancestry-path --format='%C(yellow)[%h]%Creset %s' --color $1..$br | tail -1; }; f"
+    child = "!f() { format=\"%h\"; commit=$1; br=HEAD; \
+                    if [ \"$1\" = \"-p\" ] || [ \"$1\" = \"--pretty\" ] ; then format=\"%C(yellow)[%h]%Creset %s\"; commit=$2; br=$3; fi; \
+                    if [ -z \"$br\" ] ; then br=HEAD; fi; \
+                    git log --ancestry-path --format=\"$format\" --color $commit..$br | tail -1; }; f"
 
 #   Fast-forward merge the current branch with the remote branch of the same name
     ff = "!f() { br=`git branch --no-color | grep \"^\\*\" | cut -d' ' -f2`; git merge --ff-only origin/$br; }; f"
