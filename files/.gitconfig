@@ -6,6 +6,8 @@
 [credential]
     helper = osxkeychain
 [alias]
+#   Edit this global config
+    ce = config --edit --global
 #   Human Aliases
     branches = branch -a
     tags = tag -n99
@@ -17,6 +19,13 @@
     rekt = reset HEAD --hard
     ls = ls-files
     untrack = branch --unset-upstream
+
+    unstage = reset -q HEAD --
+    discard = checkout --
+    uncommit = reset --mixed HEAD~
+    amend = commit --amend
+
+    precommit = diff --cached --diff-algorithm=minimal -w
 
 #   Always prune when you fetch
     fetch = fetch -p
