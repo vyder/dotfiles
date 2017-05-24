@@ -20,6 +20,22 @@
     ls = ls-files
     untrack = branch --unset-upstream
 
+#   Stash
+#
+#   Ref: https://www.youtube.com/watch?v=3IIaOj1Lhb0&t=6m31s
+#
+#   command | unstaged | staged | untracked | ignored
+#   -------------------------------------------------
+#   stsh    |    ✓     |   ✗    |     ✗     |    ✗
+#   stash   |    ✓     |   ✓    |     ✗     |    ✗
+#   staash  |    ✓     |   ✓    |     ✓     |    ✗
+#   staaash |    ✓     |   ✓    |     ✓     |    ✓
+#
+    stsh = stash --keep-index
+    staash = stash --include-untracked
+    staaash = stash --all
+
+
     unstage = reset -q HEAD --
     discard = checkout --
     uncommit = reset --mixed HEAD~
