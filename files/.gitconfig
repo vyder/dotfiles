@@ -35,6 +35,10 @@
     staash = stash --include-untracked
     staaash = stash --all
 
+    # Greps for a branch in list of branches
+    #
+    search = !git branch | grep -i
+
 
     unstage = reset -q HEAD --
     discard = checkout --
