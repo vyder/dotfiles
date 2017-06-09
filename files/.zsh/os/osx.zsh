@@ -9,8 +9,22 @@ alias atom="open -a 'Atom' $@"
 alias -g copy="pbcopy"
 alias -g paste="pbpaste"
 
-# Don't show groups on Macs
-alias ls='ls -G'
+# ls opts:
+#   G: Color mac output
+#   F: Show file types
+#   h: Human file sizes
+#   v: Natural order
+#
+# Source: https://www.topbug.net/blog/2016/11/28/a-better-ls-command/
+#
+export COLUMNS
+export CLICOLOR_FORCE=1
+function ls {
+    command ls -GFhv -C "$@" | less -RXF
+}
+alias la='ls -A'
+alias ll='ls -l'
+alias l='ls -A -l'
 
 # Editor
 #a () {
