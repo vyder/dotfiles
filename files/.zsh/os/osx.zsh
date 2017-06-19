@@ -24,6 +24,7 @@ function ls {
 }
 alias la='ls -A'
 alias ll='ls -l'
+alias lla='ls -Al'
 alias l='ls -A -l'
 
 # Editor
