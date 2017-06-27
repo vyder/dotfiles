@@ -3,6 +3,7 @@
     email = vidur.murali@gmail.com
 [http]
     sslverify = false
+	postBuffer = 524288000
 [credential]
     helper = osxkeychain
 [alias]
