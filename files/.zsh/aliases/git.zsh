@@ -1,6 +1,3 @@
-# git clone
-alias clone='git clone'
-
 # git add
 alias ga='git add'
 
