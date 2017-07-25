@@ -188,6 +188,7 @@
 [core]
 	editor = nano
 	pager = less -x1,5
+    autocrlf = input
 [push]
 	followTags = true
 	default = upstream
