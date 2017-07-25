@@ -25,6 +25,17 @@ function push () {
     git push origin "$branch";
 }
 
+# Delete remote branch and push current one
+function replace () {
+    if [ -z "$1" ]; then
+        branch=$(git branch --no-color | grep '^\*' | cut -d' ' -f2);
+    else
+        branch="$1";
+    fi
+    git push origin :"$branch";
+    git push origin "$branch";
+}
+
 # git push && track
 function pusht () {
     if [ -z "$1" ]; then
