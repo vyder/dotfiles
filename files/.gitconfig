@@ -67,7 +67,7 @@
     ff = "!f() { br=`git branch --no-color | grep \"^\\*\" | cut -d' ' -f2`; git merge --ff-only origin/$br; }; f"
 
 #   $1 => the number of commits to diff across
-    last = "!f() { n=$1; if [ -z "$1" ] ; then n=1; fi; git diff HEAD~$n HEAD; }; f"
+    last = "!f() { n=$1; stat=$2; if [ -z "$1" ] ; then n=1; stat=''; fi; git diff HEAD~$n HEAD $stat; }; f"
 
 #   git prev
 #   --------
