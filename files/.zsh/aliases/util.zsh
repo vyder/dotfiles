@@ -26,3 +26,5 @@ t () {
 alias n='nano'
 alias be='bundle exec'
 alias reload='source ~/.zshrc'
+alias lock='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
+alias sleep='pmset sleepnow'
