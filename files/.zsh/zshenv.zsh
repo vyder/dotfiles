@@ -37,6 +37,12 @@ if [ "$?" = "0" ]; then
     eval "$(rbenv init -)"
 fi
 
+# --PYENV
+type pyenv > /dev/null
+if [ "$?" = "0" ]; then
+    eval "$(pyenv init -)"
+fi
+
 # --JENV
 type jenv > /dev/null
 if [ "$?" = "0" ]; then
