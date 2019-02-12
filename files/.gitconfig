@@ -40,6 +40,8 @@
     #
     search = !git branch | grep -i
 
+    c = checkout
+    m = submodule update
 
     unstage = reset -q HEAD --
     discard = checkout --
@@ -48,8 +50,8 @@
 
     precommit = diff --cached --diff-algorithm=minimal -w
 
-#   Always prune when you fetch
-    fetch = fetch -p
+#   Always prune when you fetch, and get tags
+    fetch = fetch -t -p
 
 #   Better logs
     l = log --date=local --format='format:%C(yellow)commit %H [%h]%Creset%nAuthor: %Cblue%an%Creset <%ae>%nDate:   %cd, %Cgreen%cr%Creset%n%n    %s%n%n%w(0,4,4)%b'
