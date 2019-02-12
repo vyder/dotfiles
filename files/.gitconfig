@@ -194,3 +194,7 @@
 [push]
 	followTags = true
 	default = upstream
+[advice]
+    statusHints = false
+    resolveConflict = false
+    detachedHead = false
