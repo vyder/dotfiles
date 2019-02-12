@@ -32,8 +32,9 @@ function replace () {
     else
         branch="$1";
     fi
-    git push origin :"$branch";
-    git push origin "$branch";
+#    git push origin :"$branch";
+#    git push origin "$branch";
+    git push --force;
 }
 
 # git push && track
