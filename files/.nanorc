@@ -42,7 +42,7 @@ set const
 ## Python
 #include "~/.nano/python.nanorc"
 ## Ruby
-include "~/.nano/ruby.nanorc"
+#include "~/.nano/ruby.nanorc"
 ## shell
 #include "~/.nano/sh.nanorc"
 ## XML
