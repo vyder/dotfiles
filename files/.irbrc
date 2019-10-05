@@ -1,10 +1,13 @@
 # Woohoo history!
 require 'irb/ext/save-history'
-IRB.conf[:SAVE_HISTORY] = 200
-IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-history"
 
-# Automatic tabbing
-IRB.conf[:AUTO_INDENT] = true
+if IRB.singleton_methods.include?(:conf)
+    IRB.conf[:SAVE_HISTORY] = 200
+    IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-history"
+
+    # Automatic tabbing
+    IRB.conf[:AUTO_INDENT] = true
+end
 
 # Autocompletion
 require 'irb/completion'
@@ -61,4 +64,4 @@ module Kernel
 end
 
 # Add current dir to load path
-$: << File.expand_path("..", __FILE__)
+$: << %x(pwd).chomp
