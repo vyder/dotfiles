@@ -154,6 +154,7 @@
     ignore   = !git update-index --assume-unchanged
     unignore = !git update-index --no-assume-unchanged
     ignored  = !git ls-files -v | egrep "^[a-z]"
+    permission-reset = !git diff -p -R --no-ext-diff --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
 
 # Common typos
     dif = diff
