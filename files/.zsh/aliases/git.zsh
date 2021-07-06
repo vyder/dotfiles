@@ -59,6 +59,9 @@ function commit () { git commit -m "$1"; }
 function squish () { ga .; commit "squish"; git rebase -i HEAD~"$1"; }
 alias squash=squish
 
+# git rebase
+alias grc='git rebase --continue'
+
 # git status - all the typos
 alias gstat='git status'
 alias gstta='git status'
