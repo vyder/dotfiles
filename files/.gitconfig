@@ -1,6 +1,8 @@
 [user]
     name = Vidur Murali
     email = vidur.murali@gmail.com
+[github]
+    user = vyder
 [http]
     sslverify = false
     postBuffer = 524288000
