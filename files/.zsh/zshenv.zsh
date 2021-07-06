@@ -52,6 +52,13 @@ if [ "$?" = "0" ]; then
     eval "$(jenv init -)"
 fi
 
+# --NODENV
+type nodenv > /dev/null
+if [ "$?" = "0" ]; then
+    eval "$(nodenv init -)"
+fi
+
+
 # --Aliases
 source $ZSH/aliases/colors.zsh
 source $ZSH/aliases/git.zsh
