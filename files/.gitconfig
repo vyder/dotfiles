@@ -155,6 +155,9 @@
     unignore = !git update-index --no-assume-unchanged
     ignored  = !git ls-files -v | egrep "^[a-z]"
 
+# Common typos
+    dif = diff
+
 [color]
     ui = true
     diff = true
