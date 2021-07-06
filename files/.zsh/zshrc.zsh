@@ -95,3 +95,5 @@ if [ -f "$notification" ]; then
 fi
 
 #======
+
+export DO_NOT_TRACK=1
