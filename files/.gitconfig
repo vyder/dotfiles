@@ -204,3 +204,5 @@
     statusHints = false
     resolveConflict = false
     detachedHead = false
+[rebase]
+	abbreviateCommands = true
