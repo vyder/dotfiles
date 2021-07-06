@@ -77,3 +77,8 @@ alias gsta='git status'
 # if [[ -n "$(which scmpuff)" ]]; then
 #    eval "$(scmpuff init -s)"
 # fi
+
+# git submodule
+alias gsu='git submodule update'
+alias gsui='git submodule update --init'
+
