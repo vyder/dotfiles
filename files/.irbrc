@@ -65,3 +65,10 @@ end
 
 # Add current dir to load path
 $: << %x(pwd).chomp
+
+# Don't attempt this in a Rails project
+unless defined?(::Rails)
+  # Add current dir to load path
+  $: << File.expand_path("..", __FILE__)
+end
+
