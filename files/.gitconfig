@@ -14,6 +14,7 @@
 #   Human Aliases
     branches = branch -a
     tags = tag -n99
+    taglist = !git tag -l --format='%(align:35)%(refname:short)%(end) %(taggerdate:relative)' --sort=-taggerdate
     stashes = stash list
     diffc = diff --cached
     diffm = diff --cached --diff-filter=M
