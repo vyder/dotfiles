@@ -156,6 +156,10 @@
     ignored  = !git ls-files -v | egrep "^[a-z]"
     permission-reset = !git diff -p -R --no-ext-diff --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
 
+# Current commit's hash
+#
+    ref = !git rev-parse --short HEAD && git rev-parse HEAD
+
 # Common typos
     dif = diff
 
