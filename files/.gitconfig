@@ -206,3 +206,5 @@
     detachedHead = false
 [rebase]
 	abbreviateCommands = true
+[init]
+	defaultBranch = master
