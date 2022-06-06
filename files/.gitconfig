@@ -1,6 +1,7 @@
 [user]
     name = Vidur Murali
     email = vidur.murali@gmail.com
+#    email = git@vidur.io
 [github]
     user = vyder
 [http]
@@ -169,6 +170,9 @@
 # Common typos
     dif = diff
 
+# Get origin remote url
+    rem = remote get-url origin
+
 [color]
     ui = true
     diff = true
@@ -218,3 +222,5 @@
 	abbreviateCommands = true
 [init]
 	defaultBranch = master
+[status]
+#    short = true
