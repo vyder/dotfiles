@@ -28,3 +28,7 @@ alias be='bundle exec'
 alias reload='source ~/.zshrc'
 alias sleep='pmset sleepnow'
 alias load_scmpuff='eval "$(scmpuff init -s --aliases=false)"'
+alias y='yarn'
+
+# Laravel Sail
+alias sail='bash vendor/bin/sail'
