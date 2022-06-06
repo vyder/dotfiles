@@ -92,6 +92,14 @@ fi
 # Standardize hostname
 host=$(hostname | sed 's/\./-/g' | sed 's/-local$//' )
 
+# Ensure that hostname is not an IP
+rx='[a-zA-Z]+'
+
+type scutil > /dev/null
+if [[ "$?" = "0" && ! $host =~ $rx  ]]; then
+    host="$(scutil --get ComputerName)"
+fi
+
 host_config="$ZSH/host/$host.zsh"
 
 # Source config if file exists
