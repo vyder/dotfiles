@@ -24,6 +24,7 @@
     rekt = reset HEAD --hard
     ls = ls-files
     untrack = branch --unset-upstream
+    pick = cherry-pick
 
 #   Stash
 #
