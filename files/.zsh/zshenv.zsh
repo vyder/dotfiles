@@ -58,6 +58,10 @@ if [ "$?" = "0" ]; then
     eval "$(nodenv init -)"
 fi
 
+# --Composer
+if [ -d $HOME/.composer/vendor/bin ]; then
+    export PATH=$PATH:$HOME/.composer/vendor/bin
+fi
 
 # --Aliases
 source $ZSH/aliases/colors.zsh
