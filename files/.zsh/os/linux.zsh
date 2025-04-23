@@ -11,3 +11,8 @@ alias lla='ls -Al'
 
 # Atom Editor
 alias 'a'=atom
+
+# Easier sys ctl
+alias ss='sudo systemctl'
+compdef ss=systemctl
+
