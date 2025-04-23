@@ -12,10 +12,10 @@ set regexp
 # set mouse
 
 ## Scroll line-by-line
-set smooth
+##set smooth
 
 ## Show cursor position in status bar
-set const
+##set const
 
 ## Handy link to documentation:
 ## http://www.nano-editor.org/dist/v2.2/nano.1.html
