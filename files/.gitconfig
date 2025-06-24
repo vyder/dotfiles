@@ -191,7 +191,7 @@
     header = normal
     added = green
     updated = green
-    changed = blue
+    changed = yellow
     untracked = red
     branch = blue
     nobranch = red
