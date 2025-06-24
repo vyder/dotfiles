@@ -7,8 +7,7 @@
 # -COMPLETION SETTINGS
 
 # --Turn on autocomplete
-autoload -U compinit
-compinit
+autoload -Uz compinit && compinit
 
 # Disable hostname completion
 zstyle ':completion:*' hosts off
@@ -46,6 +45,24 @@ setopt promptpercent
 # ls options differ by OS
 
 #======
+
+# -CORE: macOS
+
+### Homebrew
+#
+BREW_BIN="/opt/homebrew/bin/brew"
+if [[ -f $BREW_BIN ]]; then
+  eval "$($BREW_BIN shellenv)"
+fi
+
+### ASDF
+#
+if [[ -n "$(which asdf)" ]]; then
+  export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+  # append completions to fpath
+  fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+fi
+
 
 # -PROMPT
 #   Starship: https://starship.rs
