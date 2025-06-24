@@ -35,9 +35,9 @@ alias l='ls -A -l'
 #        atom $1
 #    fi
 #}
-alias a='atom'
+#alias a='atom'
 # Set JAVA_HOME
-export JAVA_HOME=$(/usr/libexec/java_home)
+#export JAVA_HOME=$(/usr/libexec/java_home)
 
 # Copy current branch to clipboard
 alias getbr="git branch --no-color | grep \"^\\*\" | cut -d' ' -f2 | tr -d '\n' | pbcopy"
