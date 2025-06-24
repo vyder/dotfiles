@@ -48,12 +48,8 @@ setopt promptpercent
 #======
 
 # -DEFAULT PROMPT
-# source: https://github.com/sindresorhus/pure#getting-started
-if [ -e /usr/local/share/zsh/site-functions/prompt_pure_setup ]; then
-  autoload -U promptinit && promptinit
-  prompt pure
-else
-  PS1="%2c:$ "
+if [[ -n "$(which starship)" ]]; then
+  export STARSHIP_CONFIG=~/.starship.toml
 fi
 
 #======

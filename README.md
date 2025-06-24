@@ -5,6 +5,11 @@ dotfiles
 
 ### Getting Started
 
+### Prerequisites:
+
+To use Starship Prompt - install a Nerd font
+[UbuntuSans Nerd Font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/UbuntuSans.zip)
+
 ```
 git clone git@github.com:vyder/dotfiles.git
 cd dotfiles
