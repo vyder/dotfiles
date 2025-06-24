@@ -47,9 +47,12 @@ setopt promptpercent
 
 #======
 
-# -DEFAULT PROMPT
+# -PROMPT
+#   Starship: https://starship.rs
+#
 if [[ -n "$(which starship)" ]]; then
   export STARSHIP_CONFIG=~/.starship.toml
+  eval "$(starship init zsh)"
 fi
 
 #======
