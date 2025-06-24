@@ -1,7 +1,7 @@
 dotfiles
 ========
 
-![](http://i.imgur.com/cRBxFU1.jpg)
+![](assets/meme.jpeg)
 
 ### Getting Started
 
