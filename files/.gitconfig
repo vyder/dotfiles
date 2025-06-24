@@ -225,3 +225,8 @@
 	defaultBranch = master
 [status]
 #    short = true
+
+# Add local gitconfig overrides
+[include]
+    path = ~/.local.gitconfig
+
