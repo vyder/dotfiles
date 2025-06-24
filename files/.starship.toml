@@ -1,7 +1,7 @@
 # Prompt
 #
 format = """
-$hostname \
+$hostname\
 $directory\
 $git_branch\
 $git_state\
@@ -46,8 +46,7 @@ stashed = "≡"
 
 [hostname]
 ssh_only = true
-#format = "[$ssh_symbol$hostname\\]]($style)"
-format = "[$hostname\\]]($style)"
+format = "[$hostname\\] ]($style)"
 style = "bold black dimmed"
 ssh_symbol = "🌎 "
 
